@@ -1,8 +1,10 @@
 #include "../inc/vector.h"
+#include <vector>
+
 
 int main() {
 
-	vector<int> v(10);
+	std::vector<int> v(-1);
 
 	return 0;
 }
