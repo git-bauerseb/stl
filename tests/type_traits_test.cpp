@@ -2,7 +2,7 @@
 #include <type_traits>
 #include "../inc/type_traits.h"
 
-TEST(RemoveReferenceTest, Removing) {
+TEST(TypeTraits, remove_reference) {
 
     bool cond0 = std::is_same<ostd::remove_reference<int>::type,int>::value;
     EXPECT_TRUE(cond0);
@@ -15,4 +15,12 @@ TEST(RemoveReferenceTest, Removing) {
 
     bool cond3 = std::is_reference<ostd::remove_reference<int&&>>::value;
     EXPECT_FALSE(cond3);
+}
+
+TEST(TypeTraits, is_same) {
+    bool cond0 = ostd::is_same<int,int>::value;
+    EXPECT_TRUE(cond0);
+
+    bool cond1 = ostd::is_same<int,double>::value;
+    EXPECT_FALSE(cond1);
 }
