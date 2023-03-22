@@ -18,6 +18,7 @@ class vector {
             using reference = T&;
 
             // Constructors, Destructors
+            vector();
             explicit vector(size_type size);
             ~vector();
 
@@ -37,17 +38,22 @@ class vector {
             void emplace_back(Args&& ... args);
 
         private:
+            void reallocate();
+        
             const size_type m_gf = 2;            // Growth factor
             size_type m_size;                    // Number of elements stored in vector
             size_type m_capacity;                // Number of elements until reallocation
             value_type* m_elements = nullptr;    // Pointer to element storage
     };
 
+    
+    template<typename T>
+    vector<T>::vector() : m_size{0}, m_capacity{0} {}
 
     template<typename T>
     vector<T>::vector(size_type size) {
         if (size < 0) {
-            throw std::length_error();
+            throw std::length_error("Length cannot be negative");
         }
 
         m_size = size;
@@ -90,6 +96,24 @@ class vector {
             m_capacity += m_size / m_gf + 1;
             reallocate();
         }
+
+        m_elements[m_size] = std::move(T(std::forward<Args>(args) ...));
+        m_size++;
+    }
+
+
+    // Private member functions
+    template<typename T>
+    inline void vector<T>::reallocate() {
+        T* extended = new T[m_capacity];
+
+        // Move existing elements over to extended
+        for (size_type i = 0; i < m_size; ++i) {
+            extended[i] = std::move(m_elements[i]);
+        }
+
+        delete[] m_elements;
+        m_elements = extended;
     }
 }
 

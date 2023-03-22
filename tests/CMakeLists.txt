@@ -1,14 +1,14 @@
 enable_testing()
 
 add_executable(
-	impl_test
-	test.cpp
+	type_traits_test
+    type_traits_test.cpp
 )
 
 target_link_libraries(
-	impl_test
+	type_traits_test
 	GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(impl_test)
+gtest_discover_tests(type_traits_test)
